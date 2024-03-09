@@ -1,40 +1,67 @@
-import React, {useState} from 'react'
-import {loginUser} from "../utils/Auth"
+import React, { useState, useEffect } from 'react';
+import { loginUser } from '../utils/auth';
+import { Box, Button, TextField, Typography, Container } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
+const Login: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useHistory();
 
-const Login: React.FC = () =>{
-    const [username,setUsername] = useState('');
-    const [password,setPassword] = useState('');
-
-    const handleSubmit = async(e:React.FormEvent) =>{
-        e.preventDefault();
-
-        try{
-            // const user = await loginUser(username, password);
-            console.log("Logged in Successfully");
-        }catch(error){
-            //will add error handling later
-        }
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      history.push('/todos');
     }
+  }, [history]);
 
-    return (
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const user = await loginUser(username, password);
+      history.push('/todos');
+    } catch (error) {
+      // Handle login error
+    }
+  };
+
+  return (
+    <Container maxWidth="xs">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+      >
+        <Typography variant="h4" gutterBottom>
+          Login
+        </Typography>
         <form onSubmit={handleSubmit}>
-            <input
-            type='text'
-            placeholder='Username'
-            value={username}
-            onChange={(e)=>setUsername(e.target.value)}
+          <Box mb={2}>
+            <TextField
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              fullWidth
             />
-
-            <input
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+          </Box>
+          <Box mb={2}>
+            <TextField
+              type="password"
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              fullWidth
             />
+          </Box>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Login
+          </Button>
         </form>
-    );
-
+      </Box>
+    </Container>
+  );
 };
 
 export default Login;
