@@ -1,16 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import TodoList from './components/TodoList';
 import { AppBar, Toolbar, Typography, Box, Button, Container } from '@mui/material';
 
 const App: React.FC = () => {
-  const history = useHistory();
+//   const history = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    history.push('/login');
+    // history('/login');
   };
 
   return (
@@ -38,17 +38,11 @@ const App: React.FC = () => {
           </Container>
         </AppBar>
         <Box flexGrow={1}>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/todos">
-              <TodoList />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route  path="/login" element={<Login/>}/>
+            <Route  path="/register" element={<Register/>}/>
+            <Route  path="/todos" element={ <TodoList />}/>
+          </Routes>
         </Box>
       </Box>
     </Router>

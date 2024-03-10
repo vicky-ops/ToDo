@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TodoItem from './TodoItem';
 import { Box, Button, TextField, Typography, List, Container } from '@mui/material';
+import { User } from '../utils/Auth';
 
 interface Todo {
   id: number;
@@ -11,6 +12,16 @@ interface Todo {
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState('');
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      // Redirect to login if user is not logged in
+    }
+  }, []);
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos');
@@ -32,6 +43,7 @@ const TodoList: React.FC = () => {
       };
       setTodos([...todos, newTodoItem]);
       setNewTodo('');
+      console.log(user)
     }
   };
 

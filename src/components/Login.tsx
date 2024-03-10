@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { loginUser } from '../utils/auth';
+// import { loginUser } from '../utils/Auth.ts';
 import { Box, Button, TextField, Typography, Container } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  // const history = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
-      history.push('/todos');
+      // history('/todos');
     }
   }, [history]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const user = await loginUser(username, password);
-      history.push('/todos');
+      // const user = await loginUser(username, password);
+      // history('/todos');
     } catch (error) {
       // Handle login error
     }
